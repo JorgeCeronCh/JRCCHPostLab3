@@ -4,8 +4,11 @@
     Autor:		Jorge Cerón 20288
     Compilador:		pic-as (v2.30), MPLABX V6.00
 
-    Programa:		Contador hexadecimal de 4 bits
-    Hardware:		Contador hexadecimal de 4 bits en 7 segmentos
+    Programa:		Contador hexadecimal de 4 bits n 7 segmentos
+			Contador binario de 4 bits en 100 mS
+			Contador binario de 4 bits en 1 S
+			Comparador de contadores
+    Hardware:		LEDs en puertos B, D y E - Contador hexadecimal de 4 bits en 7 segmentos en puerto C
 
     Creado:			12/02/22
     Última modificación:	12/02/22	
@@ -89,11 +92,11 @@ CONFIGIO:
     RETURN
     
 CONFIGRELOJ:
-    BANKSEL OSCCON  // Direccionamiento al banco 01
-    BSF OSCCON, 0   // SCS en 1, se configura a reloj interno
-    BSF OSCCON, 6   // bit 6 en 1
-    BCF OSCCON, 5   // bit 5 en 0
-    BSF OSCCON, 4   // bit 4 en 1
+    BANKSEL OSCCON	// Direccionamiento al banco 01
+    BSF OSCCON, 0	// SCS en 1, se configura a reloj interno
+    BSF OSCCON, 6	// bit 6 en 1
+    BCF OSCCON, 5	// bit 5 en 0
+    BSF OSCCON, 4	// bit 4 en 1
     // Frecuencia interna del oscilador configurada a 2MHz
     RETURN   
     
@@ -159,7 +162,7 @@ RESETTIMER0:
 COMPARACION:
     MOVF    CONT1, W	// Se mueve el valor del PORTC a W
     SUBWF   PORTD, W	// Se resta W a PORTD
-    BTFSC   ZERO	// Verificación de la bandera ZERO
+    BTFSC   ZERO	// Verificación de la bandera ZERO, si es 1 hace el call
     CALL    LEDCERO	// Se llama la subrutina led cero que compara ambos resultados
     
     RETURN
@@ -178,20 +181,20 @@ TABLA:
     BSF	    PCLATH, 1	
     ANDLW   0x0F	// Solo deja pasar valores menores a 16
     ADDWF   PCL		// Se añade al PC el caracter en ASCII del contador
-    RETLW   00111111B	// Return que devuelve una literal a la vez 0
-    RETLW   00000110B	// Return que devuelve una literal a la vez 1
-    RETLW   01011011B	// Return que devuelve una literal a la vez 2
-    RETLW   01001111B	// Return que devuelve una literal a la vez 3
-    RETLW   01100110B	// Return que devuelve una literal a la vez 4
-    RETLW   01101101B	// Return que devuelve una literal a la vez 5
-    RETLW   01111101B	// Return que devuelve una literal a la vez 6
-    RETLW   00000111B	// Return que devuelve una literal a la vez 7
-    RETLW   01111111B	// Return que devuelve una literal a la vez 8
-    RETLW   01101111B	// Return que devuelve una literal a la vez 9
-    RETLW   01110111B	// Return que devuelve una literal a la vez A
-    RETLW   01111100B	// Return que devuelve una literal a la vez b
-    RETLW   00111001B	// Return que devuelve una literal a la vez C
-    RETLW   01011110B	// Return que devuelve una literal a la vez d
-    RETLW   01111001B	// Return que devuelve una literal a la vez E
-    RETLW   01110001B	// Return que devuelve una literal a la vez F   
+    RETLW   00111111B	// Return que devuelve una literal a la vez 0 en el contador de 7 segmentos
+    RETLW   00000110B	// Return que devuelve una literal a la vez 1 en el contador de 7 segmentos
+    RETLW   01011011B	// Return que devuelve una literal a la vez 2 en el contador de 7 segmentos
+    RETLW   01001111B	// Return que devuelve una literal a la vez 3 en el contador de 7 segmentos
+    RETLW   01100110B	// Return que devuelve una literal a la vez 4 en el contador de 7 segmentos
+    RETLW   01101101B	// Return que devuelve una literal a la vez 5 en el contador de 7 segmentos
+    RETLW   01111101B	// Return que devuelve una literal a la vez 6 en el contador de 7 segmentos
+    RETLW   00000111B	// Return que devuelve una literal a la vez 7 en el contador de 7 segmentos
+    RETLW   01111111B	// Return que devuelve una literal a la vez 8 en el contador de 7 segmentos
+    RETLW   01101111B	// Return que devuelve una literal a la vez 9 en el contador de 7 segmentos
+    RETLW   01110111B	// Return que devuelve una literal a la vez A en el contador de 7 segmentos
+    RETLW   01111100B	// Return que devuelve una literal a la vez b en el contador de 7 segmentos
+    RETLW   00111001B	// Return que devuelve una literal a la vez C en el contador de 7 segmentos
+    RETLW   01011110B	// Return que devuelve una literal a la vez d en el contador de 7 segmentos
+    RETLW   01111001B	// Return que devuelve una literal a la vez E en el contador de 7 segmentos
+    RETLW   01110001B	// Return que devuelve una literal a la vez F en el contador de 7 segmentos
 END
